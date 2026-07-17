@@ -1,0 +1,43 @@
+name: Actualizar tipo de cambio
+
+# Corre solo: todos los días a las 12:00 UTC (~07:00 en Perú) y también
+# se puede lanzar a mano desde la pestaña "Actions".
+on:
+  schedule:
+    - cron: "0 12 * * *"
+  workflow_dispatch:
+
+# El workflow necesita permiso para hacer push del CSV/gráfico/README.
+permissions:
+  contents: write
+
+jobs:
+  update:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Clonar el repo
+        uses: actions/checkout@v4
+
+      - name: Instalar Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+          cache: "pip"
+
+      - name: Instalar dependencias
+        run: pip install -r requirements.txt
+
+      - name: Ejecutar el pipeline
+        run: python src/main.py
+
+      - name: Commit y push si hubo cambios
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add data/ charts/ README.md
+          if git diff --staged --quiet; then
+            echo "Sin cambios. Nada que commitear."
+          else
+            git commit -m "chore: actualiza datos del tipo de cambio"
+            git push
+          fi
