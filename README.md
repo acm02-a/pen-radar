@@ -1,5 +1,8 @@
 # 📈 pen-radar
 
+[![Tests](https://github.com/acm02-a/pen-radar/actions/workflows/tests.yml/badge.svg)](https://github.com/acm02-a/pen-radar/actions/workflows/tests.yml)
+[![Actualización diaria](https://github.com/acm02-a/pen-radar/actions/workflows/update.yml/badge.svg)](https://github.com/acm02-a/pen-radar/actions/workflows/update.yml)
+
 **Dashboard del dólar (USD/PEN) que se actualiza solo.** Un pipeline de datos
 en Python que descarga el tipo de cambio **oficial del BCRP** (Banco Central de
 Reserva del Perú), lo procesa, guarda el histórico, genera un gráfico y reescribe
@@ -70,7 +73,7 @@ sirve los archivos crudos, cualquier app puede consumir el dólar del día sin
 API key ni backend:
 
 ```bash
-curl https://raw.githubusercontent.com/<usuario>/pen-radar/main/data/latest.json
+curl https://raw.githubusercontent.com/acm02-a/pen-radar/main/data/latest.json
 ```
 
 ```json
