@@ -20,7 +20,12 @@ CHART_PATH = Path(__file__).resolve().parent.parent / "charts" / "usd_pen.png"
 
 def render(df: pd.DataFrame, days: int = 90) -> Path:
     """Dibuja los ultimos `days` dias de USD/PEN y devuelve la ruta del PNG."""
-    df = df.sort_values("date").tail(days).copy()
+    df = df.sort_values("date").copy()
+    # Media movil de 30 dias para ver la tendencia sin el ruido diario.
+    # Se calcula ANTES de recortar, para que los primeros puntos del grafico
+    # tengan su ventana completa.
+    df["ma30"] = df["usd_pen"].rolling(window=30, min_periods=5).mean()
+    df = df.tail(days)
     df["date"] = pd.to_datetime(df["date"])
 
     x = df["date"].values
@@ -28,8 +33,12 @@ def render(df: pd.DataFrame, days: int = 90) -> Path:
     baseline = float(df["usd_pen"].min())
 
     fig, ax = plt.subplots(figsize=(10, 4.5), dpi=130)
-    ax.plot(x, y, linewidth=2.2, color="#2563eb", marker="o", markersize=3)
+    ax.plot(x, y, linewidth=2.2, color="#2563eb", marker="o", markersize=3,
+            label="Tipo de cambio diario")
+    ax.plot(x, df["ma30"].values, linewidth=1.8, color="#f59e0b",
+            linestyle="--", label="Media movil 30 dias")
     ax.fill_between(x, y, baseline, alpha=0.08, color="#2563eb")
+    ax.legend(loc="upper right", frameon=False, fontsize=9)
 
     ax.set_title("USD / PEN  —  tipo de cambio venta (BCRP)", fontsize=13, fontweight="bold")
     ax.set_ylabel("Soles por dolar")
