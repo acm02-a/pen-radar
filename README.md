@@ -25,6 +25,7 @@ _Última actualización: 2026-07-15 (automática vía GitHub Actions)_
 | Mínimo (30 días) | S/ 3.3750 |
 | Máximo (30 días) | S/ 3.4980 |
 | Promedio (30 días) | S/ 3.4064 |
+| Volatilidad (30 días, desv. est.) | 0.0230 |
 
 ![Evolución USD/PEN](charts/usd_pen.png)
 
@@ -56,9 +57,33 @@ histórico guardado para regenerar las salidas.
 | `src/fetch.py` | Descarga la serie de tipo de cambio del BCRP (venta, diaria). |
 | `src/storage.py` | Guarda el histórico en `data/history.csv` (sin duplicar días). |
 | `src/analyze.py` | Calcula variación diaria, min/máx/promedio de 30 días y tendencia. |
-| `src/chart.py` | Dibuja el gráfico de los últimos 90 días. |
+| `src/chart.py` | Dibuja el gráfico de los últimos 90 días (+ media móvil 30d). |
+| `src/export.py` | Exporta el resumen a `data/latest.json`. |
 | `src/readme.py` | Reescribe el bloque de datos de este README. |
 | `.github/workflows/update.yml` | Corre todo cada día y hace commit del resultado. |
+| `.github/workflows/tests.yml` | CI: lint + tests en cada push. |
+
+## Úsalo como API (gratis, sin servidor)
+
+El pipeline también publica [`data/latest.json`](data/latest.json). Como GitHub
+sirve los archivos crudos, cualquier app puede consumir el dólar del día sin
+API key ni backend:
+
+```bash
+curl https://raw.githubusercontent.com/<usuario>/pen-radar/main/data/latest.json
+```
+
+```json
+{
+  "pair": "USD/PEN",
+  "date": "2026-07-15",
+  "rate": 3.391,
+  "trend": "bajando",
+  "stats_30d": { "min": 3.375, "max": 3.498, "avg": 3.4064, "volatility": 0.023 }
+}
+```
+
+El histórico completo está igual de disponible en [`data/history.csv`](data/history.csv).
 
 ## Correlo tú mismo
 

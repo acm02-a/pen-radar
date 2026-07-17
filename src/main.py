@@ -14,6 +14,7 @@ import sys
 
 import analyze
 import chart
+import export
 import readme
 import storage
 from fetch import fetch_window
@@ -33,13 +34,16 @@ def run() -> int:
             print("      ERROR: no hay historico y no hay red. Nada que hacer.")
             return 1
 
-    print("[2/4] Calculando estadisticas...")
+    print("[2/5] Calculando estadisticas...")
     stats = analyze.compute(df)
 
-    print("[3/4] Generando grafico...")
+    print("[3/5] Generando grafico...")
     chart.render(df)
 
-    print("[4/4] Actualizando README...")
+    print("[4/5] Exportando latest.json...")
+    export.write_latest(stats)
+
+    print("[5/5] Actualizando README...")
     readme.update(stats)
 
     print(f"LISTO. {len(df)} dias en el historico. Dolar: S/ {stats.latest:.4f}")

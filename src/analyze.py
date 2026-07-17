@@ -22,6 +22,7 @@ class Stats:
     min_30d: float
     max_30d: float
     avg_30d: float
+    volatility_30d: float  # desviacion estandar de los ultimos 30 dias
     trend: str  # "subiendo", "bajando" o "estable"
 
 
@@ -51,6 +52,8 @@ def compute(df: pd.DataFrame, col: str = "usd_pen") -> Stats:
         change_pct = 0.0
 
     last_30 = df.tail(30)[col]
+    # Con una sola observacion la desviacion estandar es NaN; usamos 0.
+    vol = float(last_30.std()) if len(last_30) >= 2 else 0.0
     return Stats(
         latest=round(latest, 4),
         latest_date=latest_date,
@@ -59,5 +62,6 @@ def compute(df: pd.DataFrame, col: str = "usd_pen") -> Stats:
         min_30d=round(float(last_30.min()), 4),
         max_30d=round(float(last_30.max()), 4),
         avg_30d=round(float(last_30.mean()), 4),
+        volatility_30d=round(vol, 4),
         trend=_trend_label(change_pct),
     )

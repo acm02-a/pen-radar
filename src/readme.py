@@ -41,6 +41,7 @@ _Última actualización: {stats.latest_date} (automática vía GitHub Actions)_
 | Mínimo (30 días) | S/ {stats.min_30d:.4f} |
 | Máximo (30 días) | S/ {stats.max_30d:.4f} |
 | Promedio (30 días) | S/ {stats.avg_30d:.4f} |
+| Volatilidad (30 días, desv. est.) | {stats.volatility_30d:.4f} |
 
 ![Evolución USD/PEN](charts/usd_pen.png)
 

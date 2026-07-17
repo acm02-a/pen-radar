@@ -40,6 +40,55 @@ def test_variacion_diaria():
     assert stats.trend == "subiendo"
 
 
+def test_tendencia_bajando_y_estable():
+    df_baja = pd.DataFrame(
+        {"date": pd.to_datetime(["2026-07-01", "2026-07-02"]), "usd_pen": [3.50, 3.40]}
+    )
+    assert analyze.compute(df_baja).trend == "bajando"
+
+    df_plana = pd.DataFrame(
+        {"date": pd.to_datetime(["2026-07-01", "2026-07-02"]), "usd_pen": [3.40, 3.401]}
+    )
+    assert analyze.compute(df_plana).trend == "estable"
+
+
+def test_volatilidad_30d():
+    df = pd.DataFrame(
+        {"date": pd.to_datetime(["2026-07-01", "2026-07-02", "2026-07-03"]),
+         "usd_pen": [3.40, 3.44, 3.42]}
+    )
+    stats = analyze.compute(df)
+    assert stats.volatility_30d > 0
+    # Un solo dato -> volatilidad 0, no NaN.
+    df1 = pd.DataFrame({"date": pd.to_datetime(["2026-07-01"]), "usd_pen": [3.40]})
+    assert analyze.compute(df1).volatility_30d == 0.0
+
+
+def test_export_latest_json():
+    import json
+
+    import export
+
+    df = pd.DataFrame(
+        {"date": pd.to_datetime(["2026-07-01", "2026-07-02"]), "usd_pen": [3.40, 3.44]}
+    )
+    stats = analyze.compute(df)
+
+    original = export.LATEST_PATH
+    tmp = Path(__file__).resolve().parent / "_tmp_latest.json"
+    export.LATEST_PATH = tmp
+    try:
+        export.write_latest(stats)
+        payload = json.loads(tmp.read_text(encoding="utf-8"))
+        assert payload["pair"] == "USD/PEN"
+        assert payload["rate"] == 3.44
+        assert payload["stats_30d"]["min"] == 3.40
+    finally:
+        export.LATEST_PATH = original
+        if tmp.exists():
+            tmp.unlink()
+
+
 def test_upsert_no_duplica_dias(tmp_path=None):
     # Redirigimos el CSV a un archivo temporal para no ensuciar data/.
     original = storage.HISTORY_PATH
