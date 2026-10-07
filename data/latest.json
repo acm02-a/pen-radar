@@ -1,15 +1,15 @@
 {
   "pair": "USD/PEN",
   "source": "BCRP (serie PD04640PD, TC venta)",
-  "date": "2026-10-05",
-  "rate": 3.435,
-  "change_abs": -0.007,
-  "change_pct": -0.203,
-  "trend": "bajando",
+  "date": "2026-10-06",
+  "rate": 3.437,
+  "change_abs": 0.002,
+  "change_pct": 0.058,
+  "trend": "estable",
   "stats_30d": {
     "min": 3.348,
     "max": 3.454,
-    "avg": 3.3844,
-    "volatility": 0.0336
+    "avg": 3.3873,
+    "volatility": 0.0343
   }
 }
