@@ -16,19 +16,19 @@ GitHub Actions.
 
 <!--DATA:START-->
 
-### 💵 Dólar hoy: **S/ 3.421**  ▪️ +0.09%
+### 💵 Dólar hoy: **S/ 3.414**  🔻 -0.20%
 
-_Última actualización: 2026-11-10 (automática vía GitHub Actions)_
+_Última actualización: 2026-11-11 (automática vía GitHub Actions)_
 
 | Métrica | Valor |
 |---|---|
-| Tipo de cambio actual | S/ 3.4210 |
-| Variación vs. día anterior | +0.0030 (+0.09%) |
-| Tendencia | estable |
-| Mínimo (30 días) | S/ 3.4180 |
+| Tipo de cambio actual | S/ 3.4140 |
+| Variación vs. día anterior | -0.0070 (-0.20%) |
+| Tendencia | bajando |
+| Mínimo (30 días) | S/ 3.4140 |
 | Máximo (30 días) | S/ 3.4670 |
-| Promedio (30 días) | S/ 3.4456 |
-| Volatilidad (30 días, desv. est.) | 0.0125 |
+| Promedio (30 días) | S/ 3.4444 |
+| Volatilidad (30 días, desv. est.) | 0.0138 |
 
 ![Evolución USD/PEN](charts/usd_pen.png)
 
